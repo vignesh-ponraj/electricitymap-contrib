@@ -8,6 +8,8 @@ services:
       - './mockserver/server.py:/home/server.py'
   web:
     build:
+      args:
+        ELECTRICITYMAP_PUBLIC_TOKEN: ${ELECTRICITYMAP_PUBLIC_TOKEN}
       context: .
       dockerfile: web/Dockerfile
       cache_from:
@@ -19,6 +21,7 @@ services:
     depends_on: ['mockserver']
     environment:
       - NODE_ENV=development
+      - ELECTRICITYMAP_PUBLIC_TOKEN=${ELECTRICITYMAP_PUBLIC_TOKEN}
     ports: ['8000:8000']
     volumes:
       - './config:/home/config'
@@ -36,6 +39,8 @@ services:
       - './web/webpack.config.js:/home/web/webpack.config.js'
   web-watch:
     build:
+      args:
+        ELECTRICITYMAP_PUBLIC_TOKEN: ${ELECTRICITYMAP_PUBLIC_TOKEN}
       context: .
       dockerfile: web/Dockerfile
       cache_from:
@@ -46,6 +51,7 @@ services:
     command: npm run watch
     environment:
       - NODE_ENV=development
+      - ELECTRICITYMAP_PUBLIC_TOKEN=${ELECTRICITYMAP_PUBLIC_TOKEN}
     volumes:
       - './config:/home/config'
       - './web/.eslintrc:/home/web/.eslintrc'
